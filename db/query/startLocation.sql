@@ -1,9 +1,7 @@
--- startLocation.sql
-
 -- name: CreateStartLocation :one
-INSERT INTO "startLocation" ("id", "lat", "long", "address", "description", "type") 
-VALUES ($1, $2, $3, $4, $5, $6)
-RETURNING "id", "lat", "long", "address", "description", "type";
+INSERT INTO "startLocation" ("lat", "long", "address", "description", "type") 
+VALUES ($1, $2, $3, $4, $5)
+RETURNING *;
 
 -- name: GetStartLocationByID :one
 SELECT * FROM "startLocation" WHERE "id" = $1;

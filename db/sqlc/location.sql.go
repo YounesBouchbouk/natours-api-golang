@@ -15,11 +15,11 @@ RETURNING id, lat, long, address, description, day, type
 `
 
 type CreateLocationParams struct {
-	Lat         int64          `json:"lat"`
-	Long        int64          `json:"long"`
-	Address     string         `json:"address"`
+	Lat         float64        `json:"lat"`
+	Long        float64        `json:"long"`
+	Address     sql.NullString `json:"address"`
 	Description sql.NullString `json:"description"`
-	Day         sql.NullInt64  `json:"day"`
+	Day         int64          `json:"day"`
 	Type        LocationType   `json:"type"`
 }
 
@@ -55,11 +55,11 @@ func (q *Queries) DeleteLocation(ctx context.Context, id int64) error {
 }
 
 const getAllLocation = `-- name: GetAllLocation :many
-SELECT id, lat, long, address, description, day, type FROM "location"
+SELECT id, lat, long, address, description, day, type FROM "location" limit $1
 `
 
-func (q *Queries) GetAllLocation(ctx context.Context) ([]Location, error) {
-	rows, err := q.db.QueryContext(ctx, getAllLocation)
+func (q *Queries) GetAllLocation(ctx context.Context, limit int32) ([]Location, error) {
+	rows, err := q.db.QueryContext(ctx, getAllLocation, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -116,11 +116,11 @@ RETURNING id, lat, long, address, description, day, type
 `
 
 type UpdateLocationParams struct {
-	Lat         int64          `json:"lat"`
-	Long        int64          `json:"long"`
-	Address     string         `json:"address"`
+	Lat         float64        `json:"lat"`
+	Long        float64        `json:"long"`
+	Address     sql.NullString `json:"address"`
 	Description sql.NullString `json:"description"`
-	Day         sql.NullInt64  `json:"day"`
+	Day         int64          `json:"day"`
 	Type        LocationType   `json:"type"`
 	ID          int64          `json:"id"`
 }

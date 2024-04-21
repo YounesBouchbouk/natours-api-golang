@@ -80,11 +80,11 @@ type Booking struct {
 
 type Location struct {
 	ID          int64          `json:"id"`
-	Lat         int64          `json:"lat"`
-	Long        int64          `json:"long"`
-	Address     string         `json:"address"`
+	Lat         float64        `json:"lat"`
+	Long        float64        `json:"long"`
+	Address     sql.NullString `json:"address"`
 	Description sql.NullString `json:"description"`
-	Day         sql.NullInt64  `json:"day"`
+	Day         int64          `json:"day"`
 	Type        LocationType   `json:"type"`
 }
 
@@ -99,8 +99,8 @@ type Review struct {
 
 type StartLocation struct {
 	ID          int64          `json:"id"`
-	Lat         int64          `json:"lat"`
-	Long        int64          `json:"long"`
+	Lat         float64        `json:"lat"`
+	Long        float64        `json:"long"`
 	Address     string         `json:"address"`
 	Description sql.NullString `json:"description"`
 	Type        LocationType   `json:"type"`

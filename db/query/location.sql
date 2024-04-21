@@ -4,7 +4,7 @@ VALUES ($1, $2, $3, $4, $5, $6)
 RETURNING *;
 
 -- name: GetAllLocation :many
-SELECT * FROM "location";
+SELECT * FROM "location" limit $1;
 
 -- name: GetLocationByID :one
 SELECT * FROM "location" WHERE "id" = $1;

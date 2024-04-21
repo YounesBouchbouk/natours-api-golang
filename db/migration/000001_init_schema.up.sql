@@ -69,8 +69,8 @@ CREATE TABLE "booking" (
 
 CREATE TABLE "startLocation" (
   "id" BIGSERIAL PRIMARY KEY,
-  "lat" bigint NOT NULL,
-  "long" bigint NOT NULL,
+  "lat" FLOAT NOT NULL,
+  "long" FLOAT NOT NULL,
   "address" varchar NOT NULL,
   "description" varchar,
   "type" location_type DEFAULT 'point'
@@ -78,11 +78,11 @@ CREATE TABLE "startLocation" (
 
 CREATE TABLE "location" (
   "id" BIGSERIAL PRIMARY KEY,
-  "lat" bigint NOT NULL,
-  "long" bigint NOT NULL,
-  "address" varchar NOT NULL,
+  "lat" FLOAT NOT NULL,
+  "long" FLOAT NOT NULL,
+  "address" varchar,
   "description" varchar,
-  "day" bigint,
+  "day" bigint NOT NULL,
   "type" location_type DEFAULT 'point'
 );
 

@@ -9,25 +9,21 @@ import (
 )
 
 const createStartLocation = `-- name: CreateStartLocation :one
-
-INSERT INTO "startLocation" ("id", "lat", "long", "address", "description", "type") 
-VALUES ($1, $2, $3, $4, $5, $6)
-RETURNING "id", "lat", "long", "address", "description", "type"
+INSERT INTO "startLocation" ("lat", "long", "address", "description", "type") 
+VALUES ($1, $2, $3, $4, $5)
+RETURNING id, lat, long, address, description, type
 `
 
 type CreateStartLocationParams struct {
-	ID          int64          `json:"id"`
-	Lat         int64          `json:"lat"`
-	Long        int64          `json:"long"`
+	Lat         float64        `json:"lat"`
+	Long        float64        `json:"long"`
 	Address     string         `json:"address"`
 	Description sql.NullString `json:"description"`
 	Type        LocationType   `json:"type"`
 }
 
-// startLocation.sql
 func (q *Queries) CreateStartLocation(ctx context.Context, arg CreateStartLocationParams) (StartLocation, error) {
 	row := q.db.QueryRowContext(ctx, createStartLocation,
-		arg.ID,
 		arg.Lat,
 		arg.Long,
 		arg.Address,
@@ -80,8 +76,8 @@ WHERE "id" = $6
 `
 
 type UpdateStartLocationParams struct {
-	Lat         int64          `json:"lat"`
-	Long        int64          `json:"long"`
+	Lat         float64        `json:"lat"`
+	Long        float64        `json:"long"`
 	Address     string         `json:"address"`
 	Description sql.NullString `json:"description"`
 	Type        LocationType   `json:"type"`

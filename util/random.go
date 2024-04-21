@@ -35,3 +35,15 @@ func RandomRole() string {
 	n := len(roles)
 	return roles[rand.Intn(n)]
 }
+
+func RandomLocationType() string {
+	locationtypes := []string{"point", "square", "circle"}
+	n := len(locationtypes)
+	return locationtypes[rand.Intn(n)]
+}
+
+func RandomDiffeculty() string {
+	diffeculties := []string{"low", "medieum", "hard", "very_hard"}
+	n := len(diffeculties)
+	return diffeculties[rand.Intn(n)]
+}
