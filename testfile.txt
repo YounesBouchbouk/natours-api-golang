@@ -1,0 +1,7 @@
+//Now from outside of the container, we can also run createdb directly with the docker exec command.
+docker exec -it postgres12 createdb --username=root --owner=root natours
+
+
+
+//And access the database console without going through the container shell.
+docker exec -it postgres12 psql -U root natours
