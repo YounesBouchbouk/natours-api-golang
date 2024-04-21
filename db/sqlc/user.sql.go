@@ -5,22 +5,21 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createUser = `-- name: CreateUser :one
 INSERT INTO "user" ("name", "email", "role","photo", "password", "confirmpassword") 
 VALUES ($1, $2, $3, $4, $5, $6)
-RETURNING id, name, email, role, photo, password, confirmpassword, isPsswordChanged, passwordResetToken, passwordResetExpires, active, created_at
+RETURNING id, name, email, role, photo, password, confirmpassword, active, created_at
 `
 
 type CreateUserParams struct {
-	Name            string         `json:"name"`
-	Email           string         `json:"email"`
-	Role            string         `json:"role"`
-	Photo           sql.NullString `json:"photo"`
-	Password        string         `json:"password"`
-	Confirmpassword string         `json:"confirmpassword"`
+	Name            string `json:"name"`
+	Email           string `json:"email"`
+	Role            string `json:"role"`
+	Photo           string `json:"photo"`
+	Password        string `json:"password"`
+	Confirmpassword string `json:"confirmpassword"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
@@ -41,9 +40,6 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		&i.Photo,
 		&i.Password,
 		&i.Confirmpassword,
-		&i.IsPsswordChanged,
-		&i.PasswordResetToken,
-		&i.PasswordResetExpires,
 		&i.Active,
 		&i.CreatedAt,
 	)
@@ -60,11 +56,12 @@ func (q *Queries) DeleteUser(ctx context.Context, id int64) error {
 }
 
 const getAllUsers = `-- name: GetAllUsers :many
-SELECT id, name, email, role, photo, password, confirmpassword, isPsswordChanged, passwordResetToken, passwordResetExpires, active, created_at FROM "user"
+SELECT id, name, email, role, photo, password, confirmpassword, active, created_at FROM "user"
+limit $1
 `
 
-func (q *Queries) GetAllUsers(ctx context.Context) ([]User, error) {
-	rows, err := q.db.QueryContext(ctx, getAllUsers)
+func (q *Queries) GetAllUsers(ctx context.Context, limit int32) ([]User, error) {
+	rows, err := q.db.QueryContext(ctx, getAllUsers, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -80,9 +77,6 @@ func (q *Queries) GetAllUsers(ctx context.Context) ([]User, error) {
 			&i.Photo,
 			&i.Password,
 			&i.Confirmpassword,
-			&i.IsPsswordChanged,
-			&i.PasswordResetToken,
-			&i.PasswordResetExpires,
 			&i.Active,
 			&i.CreatedAt,
 		); err != nil {
@@ -100,7 +94,7 @@ func (q *Queries) GetAllUsers(ctx context.Context) ([]User, error) {
 }
 
 const getUserByID = `-- name: GetUserByID :one
-SELECT id, name, email, role, photo, password, confirmpassword, isPsswordChanged, passwordResetToken, passwordResetExpires, active, created_at FROM "user" WHERE "id" = $1
+SELECT id, name, email, role, photo, password, confirmpassword, active, created_at FROM "user" WHERE "id" = $1
 `
 
 func (q *Queries) GetUserByID(ctx context.Context, id int64) (User, error) {
@@ -114,9 +108,6 @@ func (q *Queries) GetUserByID(ctx context.Context, id int64) (User, error) {
 		&i.Photo,
 		&i.Password,
 		&i.Confirmpassword,
-		&i.IsPsswordChanged,
-		&i.PasswordResetToken,
-		&i.PasswordResetExpires,
 		&i.Active,
 		&i.CreatedAt,
 	)
@@ -127,7 +118,7 @@ const updateUser = `-- name: UpdateUser :exec
 UPDATE "user"
 SET "name" = $2 , "email" = $3, "role" = $4
 WHERE "id" = $1
-RETURNING id, name, email, role, photo, password, confirmpassword, isPsswordChanged, passwordResetToken, passwordResetExpires, active, created_at
+RETURNING id, name, email, role, photo, password, confirmpassword, active, created_at
 `
 
 type UpdateUserParams struct {

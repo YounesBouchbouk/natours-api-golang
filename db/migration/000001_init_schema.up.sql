@@ -19,22 +19,19 @@ CREATE TYPE "location_type" AS ENUM (
 );
 
 CREATE TABLE "user" (
-  "id" bigint PRIMARY KEY,
+  "id" BIGSERIAL PRIMARY KEY,
   "name" varchar NOT NULL,
   "email" varchar NOT NULL,
   "role" varchar NOT NULL,
-  "photo" varchar,
+  "photo" varchar NOT NULL,
   "password" varchar NOT NULL,
   "confirmpassword" varchar NOT NULL,
-  "isPsswordChanged" bool DEFAULT false,
-  "passwordResetToken" varchar,
-  "passwordResetExpires" date,
   "active" bool DEFAULT true,
   "created_at" timestamp DEFAULT (now())
 );
 
 CREATE TABLE "tour" (
-  "id" bigint PRIMARY KEY,
+  "id" BIGSERIAL PRIMARY KEY,
   "name" varchar NOT NULL,
   "duration" bigint NOT NULL,
   "created_at" timestamp DEFAULT (now()),
@@ -54,7 +51,7 @@ CREATE TABLE "tour" (
 );
 
 CREATE TABLE "review" (
-  "id" integer PRIMARY KEY,
+  "id" BIGSERIAL PRIMARY KEY,
   "created_at" timestamp DEFAULT (now()),
   "review" varchar NOT NULL,
   "rating" bigint NOT NULL,
@@ -71,7 +68,7 @@ CREATE TABLE "booking" (
 );
 
 CREATE TABLE "startLocation" (
-  "id" bigint PRIMARY KEY,
+  "id" BIGSERIAL PRIMARY KEY,
   "lat" bigint NOT NULL,
   "long" bigint NOT NULL,
   "address" varchar NOT NULL,
@@ -80,7 +77,7 @@ CREATE TABLE "startLocation" (
 );
 
 CREATE TABLE "location" (
-  "id" bigint PRIMARY KEY,
+  "id" BIGSERIAL PRIMARY KEY,
   "lat" bigint NOT NULL,
   "long" bigint NOT NULL,
   "address" varchar NOT NULL,

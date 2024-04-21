@@ -16,4 +16,5 @@ RETURNING *;
 DELETE FROM "user" WHERE "id" = $1;
 
 -- name: GetAllUsers :many
-SELECT * FROM "user";
+SELECT * FROM "user"
+limit $1;

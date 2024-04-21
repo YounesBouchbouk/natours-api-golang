@@ -89,7 +89,7 @@ type Location struct {
 }
 
 type Review struct {
-	ID        int32         `json:"id"`
+	ID        int64         `json:"id"`
 	CreatedAt sql.NullTime  `json:"created_at"`
 	Review    string        `json:"review"`
 	Rating    int64         `json:"rating"`
@@ -127,16 +127,13 @@ type Tour struct {
 }
 
 type User struct {
-	ID                   int64          `json:"id"`
-	Name                 string         `json:"name"`
-	Email                string         `json:"email"`
-	Role                 string         `json:"role"`
-	Photo                sql.NullString `json:"photo"`
-	Password             string         `json:"password"`
-	Confirmpassword      string         `json:"confirmpassword"`
-	IsPsswordChanged     sql.NullBool   `json:"isPsswordChanged"`
-	PasswordResetToken   sql.NullString `json:"passwordResetToken"`
-	PasswordResetExpires sql.NullTime   `json:"passwordResetExpires"`
-	Active               sql.NullBool   `json:"active"`
-	CreatedAt            sql.NullTime   `json:"created_at"`
+	ID              int64        `json:"id"`
+	Name            string       `json:"name"`
+	Email           string       `json:"email"`
+	Role            string       `json:"role"`
+	Photo           string       `json:"photo"`
+	Password        string       `json:"password"`
+	Confirmpassword string       `json:"confirmpassword"`
+	Active          sql.NullBool `json:"active"`
+	CreatedAt       sql.NullTime `json:"created_at"`
 }

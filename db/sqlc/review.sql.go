@@ -15,7 +15,7 @@ RETURNING id, created_at, review, rating, tour, "user"
 `
 
 type CreateReviewParams struct {
-	ID     int32         `json:"id"`
+	ID     int64         `json:"id"`
 	Review string        `json:"review"`
 	Rating int64         `json:"rating"`
 	Tour   sql.NullInt64 `json:"tour"`
@@ -46,7 +46,7 @@ const deleteReview = `-- name: DeleteReview :exec
 DELETE FROM "review" WHERE "id" = $1
 `
 
-func (q *Queries) DeleteReview(ctx context.Context, id int32) error {
+func (q *Queries) DeleteReview(ctx context.Context, id int64) error {
 	_, err := q.db.ExecContext(ctx, deleteReview, id)
 	return err
 }
@@ -89,7 +89,7 @@ const getReviewByID = `-- name: GetReviewByID :one
 SELECT id, created_at, review, rating, tour, "user" FROM "review" WHERE "id" = $1
 `
 
-func (q *Queries) GetReviewByID(ctx context.Context, id int32) (Review, error) {
+func (q *Queries) GetReviewByID(ctx context.Context, id int64) (Review, error) {
 	row := q.db.QueryRowContext(ctx, getReviewByID, id)
 	var i Review
 	err := row.Scan(
@@ -115,7 +115,7 @@ type UpdateReviewParams struct {
 	Rating int64         `json:"rating"`
 	Tour   sql.NullInt64 `json:"tour"`
 	User   sql.NullInt64 `json:"user"`
-	ID     int32         `json:"id"`
+	ID     int64         `json:"id"`
 }
 
 func (q *Queries) UpdateReview(ctx context.Context, arg UpdateReviewParams) error {
