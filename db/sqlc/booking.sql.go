@@ -8,26 +8,35 @@ import (
 	"database/sql"
 )
 
-const createBooking = `-- name: CreateBooking :exec
+const createBooking = `-- name: CreateBooking :one
 INSERT INTO "booking" ("tour", "user", "price", "paid") 
 VALUES ($1, $2, $3, $4)
+RETURNING tour, "user", price, created_at, paid
 `
 
 type CreateBookingParams struct {
 	Tour  sql.NullInt64 `json:"tour"`
 	User  sql.NullInt64 `json:"user"`
 	Price int64         `json:"price"`
-	Paid  int64         `json:"paid"`
+	Paid  bool          `json:"paid"`
 }
 
-func (q *Queries) CreateBooking(ctx context.Context, arg CreateBookingParams) error {
-	_, err := q.db.ExecContext(ctx, createBooking,
+func (q *Queries) CreateBooking(ctx context.Context, arg CreateBookingParams) (Booking, error) {
+	row := q.db.QueryRowContext(ctx, createBooking,
 		arg.Tour,
 		arg.User,
 		arg.Price,
 		arg.Paid,
 	)
-	return err
+	var i Booking
+	err := row.Scan(
+		&i.Tour,
+		&i.User,
+		&i.Price,
+		&i.CreatedAt,
+		&i.Paid,
+	)
+	return i, err
 }
 
 const deleteBooking = `-- name: DeleteBooking :exec
@@ -126,7 +135,7 @@ RETURNING tour, "user", price, created_at, paid
 
 type UpdateBookingParams struct {
 	Price int64         `json:"price"`
-	Paid  int64         `json:"paid"`
+	Paid  bool          `json:"paid"`
 	Tour  sql.NullInt64 `json:"tour"`
 	User  sql.NullInt64 `json:"user"`
 }

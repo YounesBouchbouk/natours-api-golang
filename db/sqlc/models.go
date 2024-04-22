@@ -75,7 +75,7 @@ type Booking struct {
 	User      sql.NullInt64 `json:"user"`
 	Price     int64         `json:"price"`
 	CreatedAt sql.NullTime  `json:"created_at"`
-	Paid      int64         `json:"paid"`
+	Paid      bool          `json:"paid"`
 }
 
 type Location struct {

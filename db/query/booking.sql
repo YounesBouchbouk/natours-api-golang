@@ -1,6 +1,7 @@
--- name: CreateBooking :exec
+-- name: CreateBooking :one
 INSERT INTO "booking" ("tour", "user", "price", "paid") 
-VALUES ($1, $2, $3, $4);
+VALUES ($1, $2, $3, $4)
+RETURNING *;
 
 -- name: GetBookingByTourAndUser :many
 SELECT * FROM "booking" 

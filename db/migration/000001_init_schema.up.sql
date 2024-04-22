@@ -64,7 +64,7 @@ CREATE TABLE "booking" (
   "user" bigint,
   "price" bigint NOT NULL,
   "created_at" timestamp DEFAULT (now()),
-  "paid" bigint NOT NULL
+  "paid" bool NOT NULL
 );
 
 CREATE TABLE "startLocation" (
