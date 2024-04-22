@@ -107,23 +107,23 @@ type StartLocation struct {
 }
 
 type Tour struct {
-	ID              int64          `json:"id"`
-	Name            string         `json:"name"`
-	Duration        int64          `json:"duration"`
-	CreatedAt       sql.NullTime   `json:"created_at"`
-	MaxGroupSize    int64          `json:"maxGroupSize"`
-	Difficulty      string         `json:"difficulty"`
-	RatingsAverage  int64          `json:"ratingsAverage"`
-	RatingsQuantity sql.NullInt64  `json:"ratingsQuantity"`
-	Price           int64          `json:"price"`
-	Summary         string         `json:"summary"`
-	Description     string         `json:"description"`
-	ImageCover      sql.NullString `json:"imageCover"`
-	Images          sql.NullString `json:"images"`
-	StartDates      time.Time      `json:"startDates"`
-	SecretTour      sql.NullBool   `json:"secret_tour"`
-	StartlocationId sql.NullInt64  `json:"startlocationId"`
-	LocationId      sql.NullInt64  `json:"locationId"`
+	ID              int64        `json:"id"`
+	Name            string       `json:"name"`
+	Duration        int64        `json:"duration"`
+	CreatedAt       sql.NullTime `json:"created_at"`
+	MaxGroupSize    int64        `json:"max_group_size"`
+	Difficulty      string       `json:"difficulty"`
+	RatingsAverage  int64        `json:"ratings_average"`
+	RatingsQuantity int64        `json:"ratings_quantity"`
+	Price           int64        `json:"price"`
+	Summary         string       `json:"summary"`
+	Description     string       `json:"description"`
+	Imagecover      string       `json:"imagecover"`
+	Images          string       `json:"images"`
+	StartDates      time.Time    `json:"start_dates"`
+	SecretTour      sql.NullBool `json:"secret_tour"`
+	StartLocationID int64        `json:"start_location_id"`
+	LocationID      int64        `json:"location_id"`
 }
 
 type User struct {

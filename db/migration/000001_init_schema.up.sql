@@ -32,22 +32,22 @@ CREATE TABLE "user" (
 
 CREATE TABLE "tour" (
   "id" BIGSERIAL PRIMARY KEY,
-  "name" varchar NOT NULL,
-  "duration" bigint NOT NULL,
+  "name" varchar NOT NULL ,
+  "duration" bigint NOT NULL ,
   "created_at" timestamp DEFAULT (now()),
-  "maxGroupSize" bigint NOT NULL,
-  "difficulty" varchar NOT NULL,
-  "ratingsAverage" bigint NOT NULL,
-  "ratingsQuantity" bigint DEFAULT 10,
-  "price" bigint NOT NULL,
-  "summary" varchar NOT NULL,
-  "description" varchar NOT NULL,
-  "imageCover" varchar,
-  "images" varchar,
-  "startDates" date NOT NULL,
+  "max_group_size" bigint NOT NULL,
+  "difficulty" varchar NOT NULL ,
+  "ratings_average" bigint NOT NULL ,
+  "ratings_quantity" bigint NOT NULL,
+  "price" bigint NOT NULL ,
+  "summary" varchar NOT NULL ,
+  "description" varchar NOT NULL ,
+  "imagecover" varchar NOT NULL,
+  "images" varchar NOT NULL,
+  "start_dates" date NOT NULL ,
   "secret_tour" bool DEFAULT false,
-  "startlocationId" bigint,
-  "locationId" bigint
+  "start_location_id" bigint NOT NULL,
+  "location_id" bigint NOT NULL
 );
 
 CREATE TABLE "review" (
@@ -86,9 +86,9 @@ CREATE TABLE "location" (
   "type" location_type DEFAULT 'point'
 );
 
-ALTER TABLE "tour" ADD FOREIGN KEY ("startlocationId") REFERENCES "startLocation" ("id");
+ALTER TABLE "tour" ADD FOREIGN KEY ("start_location_id") REFERENCES "startLocation" ("id");
 
-ALTER TABLE "tour" ADD FOREIGN KEY ("locationId") REFERENCES "location" ("id");
+ALTER TABLE "tour" ADD FOREIGN KEY ("location_id") REFERENCES "location" ("id");
 
 ALTER TABLE "review" ADD FOREIGN KEY ("tour") REFERENCES "tour" ("id");
 

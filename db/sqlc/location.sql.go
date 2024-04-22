@@ -55,7 +55,8 @@ func (q *Queries) DeleteLocation(ctx context.Context, id int64) error {
 }
 
 const getAllLocation = `-- name: GetAllLocation :many
-SELECT id, lat, long, address, description, day, type FROM "location" limit $1
+SELECT id, lat, long, address, description, day, type FROM "location" 
+limit $1
 `
 
 func (q *Queries) GetAllLocation(ctx context.Context, limit int32) ([]Location, error) {
