@@ -93,7 +93,7 @@ func (q *Queries) GetAllTours(ctx context.Context, limit int32) ([]Tour, error) 
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Tour
+	items := []Tour{}
 	for rows.Next() {
 		var i Tour
 		if err := rows.Scan(

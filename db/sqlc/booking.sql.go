@@ -63,7 +63,7 @@ func (q *Queries) GetAllBooking(ctx context.Context) ([]Booking, error) {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Booking
+	items := []Booking{}
 	for rows.Next() {
 		var i Booking
 		if err := rows.Scan(
@@ -103,7 +103,7 @@ func (q *Queries) GetBookingByTourAndUser(ctx context.Context, arg GetBookingByT
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Booking
+	items := []Booking{}
 	for rows.Next() {
 		var i Booking
 		if err := rows.Scan(

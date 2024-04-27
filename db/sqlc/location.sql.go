@@ -65,7 +65,7 @@ func (q *Queries) GetAllLocation(ctx context.Context, limit int32) ([]Location, 
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Location
+	items := []Location{}
 	for rows.Next() {
 		var i Location
 		if err := rows.Scan(
