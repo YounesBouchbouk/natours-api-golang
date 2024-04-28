@@ -2,17 +2,20 @@ package api
 
 import (
 	db "github.com/YounesBouchbouk/natours-api-golang/db/sqlc"
+	"github.com/YounesBouchbouk/natours-api-golang/util"
 	"github.com/gin-gonic/gin"
 )
 
 type Server struct {
 	router *gin.Engine
 	store  *db.Store
+	config *util.Config
 }
 
-func NewServer(store *db.Store) *Server {
+func NewServer(store *db.Store, config *util.Config) *Server {
 	server := &Server{
-		store: store,
+		store:  store,
+		config: config,
 	}
 	router := gin.Default()
 

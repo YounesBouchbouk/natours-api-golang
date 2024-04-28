@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	db "github.com/YounesBouchbouk/natours-api-golang/db/sqlc"
+	"github.com/YounesBouchbouk/natours-api-golang/token"
 	"github.com/gin-gonic/gin"
 )
 
@@ -85,6 +86,15 @@ type LoginRequest struct {
 
 func (server *Server) login(ctx *gin.Context) {
 
+	maker, err := token.NewJWTMaker(server.config.JWT_secret_key)
+
+	if err != nil {
+		ctx.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	var req LoginRequest
 
 	if err := ctx.ShouldBind(&req); err != nil {
@@ -110,9 +120,20 @@ func (server *Server) login(ctx *gin.Context) {
 		return
 	}
 
+	token, payload, err := maker.CreateToken(user.Email, user.Role, 2000)
+
+	if err != nil {
+		ctx.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	ctx.JSON(200, gin.H{
 		"message": "login success",
-		"user":    user,
+		// "user":    user,
+		"payload": payload,
+		"token":   token,
 	})
 
 }
