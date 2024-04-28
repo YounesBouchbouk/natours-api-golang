@@ -40,7 +40,12 @@ func TestCreateUser(t *testing.T) {
 func TestCreateUserWithSameEmail(t *testing.T) {
 	user := createRandomUser(t)
 
-	password := util.RandomString(10)
+	password, err := util.HashPassword(
+		util.RandomString(10),
+	)
+
+	require.NoError(t, err)
+
 	arg := CreateUserParams{
 		Email:    user.Email,
 		Role:     util.RandomRole(),
@@ -49,7 +54,7 @@ func TestCreateUserWithSameEmail(t *testing.T) {
 		Password: password,
 	}
 
-	_, err := testQueries.CreateUser(context.Background(), arg)
+	_, err = testQueries.CreateUser(context.Background(), arg)
 
 	require.Error(t, err)
 

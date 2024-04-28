@@ -5,6 +5,7 @@ import (
 
 	db "github.com/YounesBouchbouk/natours-api-golang/db/sqlc"
 	"github.com/YounesBouchbouk/natours-api-golang/token"
+	"github.com/YounesBouchbouk/natours-api-golang/util"
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,9 +37,18 @@ func (server *Server) CreateUser(ctx *gin.Context) {
 		return
 	}
 
+	hashedPassword, err := util.HashPassword(req.Password)
+
+	if err != nil {
+		ctx.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	args := db.CreateUserParams{
 		Email:    req.Email,
-		Password: req.Password,
+		Password: hashedPassword,
 		Name:     req.Name,
 		Role:     req.Role,
 		Photo:    req.Photo,
@@ -113,7 +123,7 @@ func (server *Server) login(ctx *gin.Context) {
 		return
 	}
 
-	if user.Password != req.Password {
+	if !util.CheckPasswordHash(req.Password, user.Password) {
 		ctx.JSON(400, gin.H{
 			"error": "user or passwords do not match",
 		})
