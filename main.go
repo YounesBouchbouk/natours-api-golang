@@ -6,17 +6,19 @@ import (
 
 	"github.com/YounesBouchbouk/natours-api-golang/api"
 	db "github.com/YounesBouchbouk/natours-api-golang/db/sqlc"
+	"github.com/YounesBouchbouk/natours-api-golang/util"
 	_ "github.com/lib/pq"
 )
 
-const (
-	dbDriver = "postgres"
-	dbSource = "postgresql://root:secret@localhost:5432/natours?sslmode=disable"
-)
-
 func main() {
+
+	config, err := util.LoadConfig(".")
+	if err != nil {
+		log.Fatal("cannot load config:", err)
+	}
+
 	// Open a database value
-	conn, err := sql.Open(dbDriver, dbSource)
+	conn, err := sql.Open(config.DBDriver, config.DBSource)
 	if err != nil {
 		log.Fatal("cannot connect to database:", err)
 	}
@@ -35,7 +37,7 @@ func main() {
 	server := api.NewServer(store)
 
 	// Start the server
-	err = server.Start(":3001")
+	err = server.Start(config.ServerAddress)
 	if err != nil {
 		log.Fatal("cannot start server:", err)
 	}
