@@ -18,6 +18,10 @@ func NewServer(store *db.Store) *Server {
 
 	//add router
 	router.POST("/user", server.createUser)
+	router.POST("/login", server.login)
+
+	//admin route
+	router.GET("/users", server.getAllUsersForAdmin)
 
 	server.router = router
 

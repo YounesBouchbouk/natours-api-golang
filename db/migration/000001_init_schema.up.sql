@@ -25,7 +25,6 @@ CREATE TABLE "user" (
   "role" varchar NOT NULL,
   "photo" varchar NOT NULL,
   "password" varchar NOT NULL,
-  "confirmpassword" varchar NOT NULL,
   "active" bool DEFAULT true,
   "created_at" timestamp DEFAULT (now())
 );

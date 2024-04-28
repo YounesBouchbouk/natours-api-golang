@@ -127,13 +127,12 @@ type Tour struct {
 }
 
 type User struct {
-	ID              int64        `json:"id"`
-	Name            string       `json:"name"`
-	Email           string       `json:"email"`
-	Role            string       `json:"role"`
-	Photo           string       `json:"photo"`
-	Password        string       `json:"password"`
-	Confirmpassword string       `json:"confirmpassword"`
-	Active          sql.NullBool `json:"active"`
-	CreatedAt       sql.NullTime `json:"created_at"`
+	ID        int64        `json:"id"`
+	Name      string       `json:"name"`
+	Email     string       `json:"email"`
+	Role      string       `json:"role"`
+	Photo     string       `json:"photo"`
+	Password  string       `json:"password"`
+	Active    sql.NullBool `json:"active"`
+	CreatedAt sql.NullTime `json:"created_at"`
 }

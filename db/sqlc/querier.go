@@ -23,12 +23,13 @@ type Querier interface {
 	GetAllLocation(ctx context.Context, limit int32) ([]Location, error)
 	GetAllReviews(ctx context.Context) ([]Review, error)
 	GetAllTours(ctx context.Context, limit int32) ([]Tour, error)
-	GetAllUsers(ctx context.Context, limit int32) ([]User, error)
+	GetAllUsers(ctx context.Context, limit int32) ([]GetAllUsersRow, error)
 	GetBookingByTourAndUser(ctx context.Context, arg GetBookingByTourAndUserParams) ([]Booking, error)
 	GetLocationByID(ctx context.Context, id int64) (Location, error)
 	GetReviewByID(ctx context.Context, id int64) (Review, error)
 	GetStartLocationByID(ctx context.Context, id int64) (StartLocation, error)
 	GetTourByID(ctx context.Context, id int64) (Tour, error)
+	GetUserByEmail(ctx context.Context, email string) (User, error)
 	GetUserByID(ctx context.Context, id int64) (User, error)
 	UpdateBooking(ctx context.Context, arg UpdateBookingParams) error
 	UpdateLocation(ctx context.Context, arg UpdateLocationParams) error
