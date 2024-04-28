@@ -16,7 +16,7 @@ type CreateUserRequest struct {
 	Confirmpassword string `json:"confirmpassword"`
 }
 
-func (server *Server) createUser(ctx *gin.Context) {
+func (server *Server) CreateUser(ctx *gin.Context) {
 
 	var req CreateUserRequest
 
@@ -58,12 +58,6 @@ func (server *Server) createUser(ctx *gin.Context) {
 }
 
 type GetUserRequest struct {
-}
-
-func (server *Server) getUser(ctx *gin.Context) {
-	ctx.JSON(200, gin.H{
-		"message": "get user",
-	})
 }
 
 func (server *Server) getAllUsersForAdmin(ctx *gin.Context) {

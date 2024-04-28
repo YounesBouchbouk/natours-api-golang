@@ -21,7 +21,7 @@ CREATE TYPE "location_type" AS ENUM (
 CREATE TABLE "user" (
   "id" BIGSERIAL PRIMARY KEY,
   "name" varchar NOT NULL,
-  "email" varchar NOT NULL,
+  "email" varchar NOT NULL UNIQUE,
   "role" varchar NOT NULL,
   "photo" varchar NOT NULL,
   "password" varchar NOT NULL,
