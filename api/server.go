@@ -23,8 +23,28 @@ func NewServer(store *db.Store, config *util.Config) *Server {
 	router.POST("/user", server.CreateUser)
 	router.POST("/login", server.login)
 
-	//admin route
-	router.GET("/users", server.getAllUsersForAdmin)
+	router.Use(AuthenticationMiddlware(*server))
+
+	//TODO
+
+	// get all tours
+	// get active tours
+	// get tour by it's location
+	// get tour information
+	// get tour by defficulty
+	// get tour from to
+
+	// ONLY FOR ADMIN
+	router.GET("/users", CheckIfAdmin(), server.getAllUsersForAdmin)
+
+	// TODO
+
+	// remove user /user/remove/{id}
+	// check active or  disbaled user /users/status/{role}
+	// get user by id /users/{id}
+	// get users by role  /users/role/{role}
+
+	router.GET("/testroute", server.privateroutetest)
 
 	server.router = router
 

@@ -141,7 +141,7 @@ func (server *Server) login(ctx *gin.Context) {
 
 	ctx.JSON(200, gin.H{
 		"message": "login success",
-		// "user":    user,
+		"userID":  user.ID,
 		"payload": payload,
 		"token":   token,
 	})
