@@ -56,19 +56,44 @@ func AuthenticationMiddlware(server Server) gin.HandlerFunc {
 			return
 		}
 		ctx.Set(authorizationPayloadKey, payload)
-		ctx.Set("email", payload.Email)
-		ctx.Set("role", payload.Role)
 		ctx.Next()
 	}
 }
 
 func CheckIfAdmin() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		role, _ := ctx.Get("role")
-		if role != "admin" {
+		authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+		if authPayload.Role != "admin" {
 			respondWithError(ctx, 401, "permission denied")
 			return
 		}
 		ctx.Next()
+	}
+}
+
+func CheckIfGuideLeader() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+		if authPayload.Role != "leadguide" {
+			respondWithError(ctx, 401, "permission denied")
+			return
+		}
+		ctx.Next()
+
+	}
+}
+
+func CheckIfLeader() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+		if authPayload.Role != "guide" {
+			respondWithError(ctx, 401, "permission denied")
+			return
+		}
+		ctx.Next()
+
 	}
 }
