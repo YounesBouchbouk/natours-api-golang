@@ -1,21 +1,32 @@
 package api
 
 import (
+	"fmt"
+
 	db "github.com/YounesBouchbouk/natours-api-golang/db/sqlc"
+	"github.com/YounesBouchbouk/natours-api-golang/token"
 	"github.com/YounesBouchbouk/natours-api-golang/util"
 	"github.com/gin-gonic/gin"
 )
 
 type Server struct {
-	router *gin.Engine
-	store  *db.Store
-	config *util.Config
+	router     *gin.Engine
+	store      *db.Store
+	config     *util.Config
+	tokenMaker token.Maker
 }
 
-func NewServer(store *db.Store, config *util.Config) *Server {
+func NewServer(store *db.Store, config *util.Config) (*Server, error) {
+	maker, err := token.NewJWTMaker(config.JWT_secret_key)
+
+	if err != nil {
+		return nil, fmt.Errorf("cannot create token maker: %w", err)
+	}
+
 	server := &Server{
-		store:  store,
-		config: config,
+		store:      store,
+		config:     config,
+		tokenMaker: maker,
 	}
 	router := gin.Default()
 
@@ -48,7 +59,7 @@ func NewServer(store *db.Store, config *util.Config) *Server {
 
 	server.router = router
 
-	return server
+	return server, nil
 }
 
 func (server *Server) Start(address string) error {
