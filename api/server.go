@@ -34,6 +34,8 @@ func NewServer(store *db.Store, config *util.Config) (*Server, error) {
 	router.POST("/user", server.CreateUser)
 	router.POST("/login", server.login)
 
+	router.POST("/tour", server.createNewTourController)
+
 	router.Use(AuthenticationMiddlware(*server))
 
 	//TODO
