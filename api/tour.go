@@ -61,15 +61,6 @@ func (server *Server) createNewTourController(ctx *gin.Context) {
 		Type:        db.LocationType(req.Location.Type),
 	}
 
-	ceatedlocation, err := server.store.CreateLocation(ctx, location)
-
-	if err != nil {
-		ctx.JSON(400, gin.H{
-			"error": "can't create location",
-		})
-		return
-	}
-
 	startLocation := db.CreateStartLocationParams{
 		Lat:         req.StartLocation.Lat,
 		Long:        req.StartLocation.Long,
@@ -77,16 +68,6 @@ func (server *Server) createNewTourController(ctx *gin.Context) {
 		Type:        db.LocationType(req.StartLocation.Type),
 		Address:     req.StartLocation.Address,
 	}
-
-	ceatedStartLocation, err := server.store.CreateStartLocation(ctx, startLocation)
-
-	if err != nil {
-		ctx.JSON(400, gin.H{
-			"error": "can't create start location",
-		})
-		return
-	}
-
 	tour := db.CreateTourParams{
 		Name:            req.Name,
 		Duration:        req.Duration,
@@ -101,19 +82,16 @@ func (server *Server) createNewTourController(ctx *gin.Context) {
 		Images:          req.Images,
 		StartDates:      req.StartDates,
 		SecretTour:      sql.NullBool{Bool: false},
-		StartLocationID: ceatedStartLocation.ID,
-		LocationID:      ceatedlocation.ID,
 	}
 
-	createdTour, err := server.store.CreateTour(ctx, tour)
+	createdTour, err := server.store.CreateNewTourTransaction(ctx, db.LocationTrParams(location), db.StartlocationTrParams(startLocation), db.TourTrParams(tour))
 
 	if err != nil {
-		ctx.JSON(400, gin.H{
-			"error": "can't create tour",
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
 		})
 		return
 	}
-
 	// If there's no error, proceed with your business logic
 	ctx.JSON(http.StatusOK, gin.H{"message": "Tour created successfully", "data": createdTour})
 }
